@@ -187,6 +187,7 @@ def parse_args():
     return parser.parse_args()
 
 args = parse_args()
+device = 'cpu'
 if args.gpu >= 0:
     os.environ["CUDA_VISIBLE_DEVICES"] = str(args.gpu)
     if args.tree_method == 'hist':

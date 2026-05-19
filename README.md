@@ -152,9 +152,14 @@ redistributed in this repository. Researchers must obtain access through the
 official UK Biobank procedure (https://www.ukbiobank.ac.uk/).
 
 To verify pipeline functionality without UK Biobank access, users may generate 
-a synthetic dataset matching the expected column structure. The expected 
-variable structure and data types are documented in the preprocessing scripts 
-under `Data_process/`.
+a synthetic dataset matching the expected column structure.
+The 506 variables used in the analysis (21 social, 438 health-related, 
+48 brain) are described in detail in the **Methods section of the manuscript** 
+("Variables and measures") and in **Supplementary Tables 10–13**, which list 
+all features with their UK Biobank field numbers and coding schemes. 
+Researchers with UK Biobank access can use these descriptions to construct 
+a dataset compatible with the preprocessing scripts in `Data_process/`.
+
 
 ### Expected Output
 When run on the actual UK Biobank dataset, the pipeline produces:
@@ -162,15 +167,7 @@ When run on the actual UK Biobank dataset, the pipeline produces:
 - Performance metrics (AUC, accuracy, sensitivity, specificity) for each fold
 - SHAP-based feature attribution values (mean absolute SHAP per feature)
 
-Example expected metrics (from the manuscript, full UK Biobank cohort):
-- Gf classification AUC (full feature set): 0.816
-- Gf classification AUC (social features only): 0.806
-- Educational attainment classification AUC: 0.743
-
 ### Expected Run Time
-
-The benchmark below is based on **XGBoost** training (the primary model 
-reported in the manuscript) on the analytic sample (N = 5,492):
 
 **XGBoost training time (per fold)**:
 - GPU (NVIDIA RTX A6000): ~1.08 seconds

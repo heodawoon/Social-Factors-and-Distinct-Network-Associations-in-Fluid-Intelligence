@@ -178,7 +178,7 @@ def main():
 
     print()
     print("=" * 70)
-    print("STEP 3/3 : Running the UNMODIFIED xgboost_pipeline_shap.py")
+    print("STEP 3/3 : Running xgboost_pipeline_shap.py")
     print("=" * 70)
     cmd = [
         sys.executable,

@@ -81,6 +81,12 @@ pip install -r requirements.txt
 
 The repository is organized into several components corresponding to the main analysis stages.
 
+### Demo runner — `demo.py`
+
+Self-contained script at the repository root that generates synthetic data and
+runs the XGBoost pipeline end-to-end, for verifying functionality
+without UK Biobank access. See the **Demo** section below.
+
 ### Data preprocessing — `Data_process/`
 
 Scripts used to construct the analysis dataset from the UK Biobank resource.
@@ -151,25 +157,70 @@ Due to UK Biobank data access restrictions, the original dataset cannot be
 redistributed in this repository. Researchers must obtain access through the 
 official UK Biobank procedure (https://www.ukbiobank.ac.uk/).
 
-To verify pipeline functionality without UK Biobank access, users may generate 
-a synthetic dataset matching the expected column structure.
-The 506 variables used in the analysis (21 social, 438 health-related, 
-48 brain) are described in detail in the **Methods section of the manuscript** 
-("Variables and measures") and in **Supplementary Tables 10–13**, which list 
-all features with their UK Biobank field numbers and coding schemes. 
-Researchers with UK Biobank access can use these descriptions to construct 
-a dataset compatible with the preprocessing scripts in `Data_process/`.
+To verify pipeline functionality **without UK Biobank access**, this 
+repository includes a self-contained demo script, `demo.py`, at the 
+repository root. It automatically generates a small synthetic dataset whose 
+column structure exactly matches the preprocessing output 
+(`Step5_refilter_categorical_for_deeplearning.csv`), generates the 
+cross-validation split file, and runs the XGBoost pipeline 
+(`Tree_based_models/xgboost_pipeline_shap.py`) end-to-end. The pipeline 
+logic is unchanged; the only edit to the original code is a one-line 
+`device = 'cpu'` default so the demo runs on both CPU and GPU. No real 
+data is used.
 
+For reference, the 506 variables used in the analysis (21 social, 
+438 health-related, 48 brain) are described in detail in the 
+**Methods section of the manuscript** ("Variables and measures") and in 
+**Supplementary Tables 10–13**, which list all features with their UK Biobank 
+field numbers and coding schemes. Researchers with UK Biobank access can use 
+these descriptions to construct a dataset compatible with the preprocessing 
+scripts in `Data_process/`.
+
+### Running the Demo
+
+```bash
+python demo.py                 # CPU (default, works without GPU)
+python demo.py --gpu 0         # use GPU 0 if available
+python demo.py --variable_type socio   # choose a feature subset
+```
 
 ### Expected Output
-When run on the actual UK Biobank dataset, the pipeline produces:
+
+**Demo (`demo.py`)** creates a `./demo_output/` directory:
+
+```
+demo_output/
+  data/
+    Step5_refilter_categorical_for_deeplearning.csv   # synthetic dataset
+    Iter_5_Folds_5.json                               # CV split file
+  results/
+    <cls_type>/<variable_type>/<param_name>/
+      XGBoost_shap_<variable_type>_final_result_value.csv
+      XGBoost_shap_<variable_type>_all_iters_folds.csv
+      shap_iter<it>_fold<fold>.csv                    # one per iteration/fold
+    XGBoost_shap_averaged_total_validation_results.csv
+```
+
+The console prints per-fold metrics and a final averaged summary. Because 
+the demo data is random synthetic noise (no real signal), the reported 
+AUC/accuracy is near chance (~0.5) — this is **expected**. The demo verifies 
+that the pipeline runs end-to-end and produces correctly formatted outputs, 
+not that it reproduces manuscript performance (which requires real 
+UK Biobank data).
+
+**On the actual UK Biobank dataset**, the pipeline produces:
 - Trained models and cross-validation predictions (saved as `.pkl` or `.pt` files)
 - Performance metrics (AUC, accuracy, sensitivity, specificity) for each fold
 - SHAP-based feature attribution values (mean absolute SHAP per feature)
 
 ### Expected Run Time
 
-**XGBoost training time (per fold)**:
+**Demo (`demo.py`)** with the default tiny configuration 
+(600 synthetic subjects, `n_estimators=50`):
+- CPU (default): under ~1 minute for the full 5×5 CV run on a normal desktop
+- GPU: faster, typically a few seconds
+
+**XGBoost training time (per fold) on the full UK Biobank dataset**:
 - GPU (NVIDIA RTX A6000): ~1.08 seconds
 - CPU (AMD EPYC 7513, 32 cores): ~26.69 seconds (~25× slower than GPU)
 

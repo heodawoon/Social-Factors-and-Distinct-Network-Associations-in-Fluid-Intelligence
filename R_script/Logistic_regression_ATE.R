@@ -5,13 +5,14 @@ library(grf) #for ATE (causal forest)
 
 df <- read.csv('Step4_4_binarize_disease_column.csv')
 
+names(df) <- make.names(names(df))
+
 #binarize variables 
 df <- df %>% mutate(ethnicity_b_2 = ifelse(ethnicity_0 >= 2, 1, 0),
                     emp_b_2 = ifelse(emp_2 >= 2, 0, 1),
-                    ed_b_2 = ifelse(ed_yr_2 >= 20, 1, 0)
-                    income_fam_2 = ifelse(X738.2.0 >= 1, X738.2.0, NA)              
-                   )
-
+                    ed_b_2 = ifelse(ed_yr_2 >= 20, 1, 0),
+                    income_fam_2 = ifelse(income_fam_2 >= 1, income_fam_2, NA)              
+)
 
 ####################logit######################
 
@@ -34,15 +35,21 @@ df_logit <- glm(fluid_2_p10 ~
 #see results
 summary(df_logit)
 
+raw_p <- summary(df_logit)$coefficients[, "Pr(>|z|)"]
+
 #calculating the odds ratio and 95% confidence interval, and rounding them to three decimal places
-df_logit_res <- round(
+df_logit_res <- as.data.frame(round(
   cbind(
     OR  = exp(coef(df_logit)),
     LCI = exp(confint(df_logit)[, 1]),
-    UCI = exp(confint(df_logit)[, 2]),
-    p_value = summary(df_logit)$coefficients[, "Pr(>|z|)"]
-  ), 3)
+    UCI = exp(confint(df_logit)[, 2])
+  ), 3))
 
+df_logit_res$p_value <- formatC(raw_p, format = "e", digits = 3)
+df_logit_res$p_bonf  <- formatC(p.adjust(raw_p, method = "bonferroni"), 
+                                format = "e", digits = 3)
+
+print(df_logit_res)
 
 #check multicollinearity
 vif(df_logit)
@@ -85,13 +92,20 @@ df_glm  <- glm(fluid_2_p10 ~ .,
 summary(df_glm)
 
 # Calculating the odds ratio and 95% confidence interval, and rounding them to three decimal places
-df_glm_res <- round(
+raw_p_glm <- summary(df_glm)$coefficients[, "Pr(>|z|)"]
+
+df_glm_res <- as.data.frame(round(
   cbind(
     OR  = exp(coef(df_glm)),
-    LCI = exp(confint(df_glm )[, 1]),
-    UCI = exp(confint(df_glm )[, 2]),
-    p_value = summary(df_glm)$coefficients[, "Pr(>|z|)"]
-  ), 3)
+    LCI = exp(confint(df_glm)[, 1]),
+    UCI = exp(confint(df_glm)[, 2])
+  ), 3))
+
+df_glm_res$p_value <- formatC(raw_p_glm, format = "e", digits = 3)
+df_glm_res$p_bonf  <- formatC(p.adjust(raw_p_glm, method = "bonferroni"), 
+                              format = "e", digits = 3)
+
+print(df_glm_res)
 
 #check multicollinearity
 vif(df_glm)
@@ -161,14 +175,13 @@ Y_frnd_b <- ate_df$frnd_sat_2
 W_frnd_b <- ate_df$ed_b_2
 
 #fit a causal forest
+set.seed(42)
 CF_frnd_b <- causal_forest(X_frnd_b, 
                            Y_frnd_b,
                            W_frnd_b,
                            min.node.size = 100,
                            num.trees = 5000)
 
-#estimate the ATE
-ate_sig(average_treatment_effect(CF_frnd_b)) 
 
 ###########################################################
 ####################N of social act########################
@@ -189,14 +202,12 @@ Y_Nact_b <- ate_df$social_act_n_2
 W_Nact_b <- ate_df$ed_b_2
 
 #fit a causal forest
+set.seed(42)
 CF_Nact_b <- causal_forest(X_Nact_b, 
                            Y_Nact_b,
                            W_Nact_b,
                            min.node.size = 100,
                            num.trees = 5000)
-
-#estimate the ATE
-ate_sig(average_treatment_effect(CF_Nact_b)) 
 
 ###########################################################
 ##########################visit############################
@@ -217,14 +228,12 @@ Y_vst_b <- ate_df$freq_visit_2
 W_vst_b <- ate_df$ed_b_2
 
 #fit a causal forest
+set.seed(42)
 CF_vst_b <- causal_forest(X_vst_b, 
                           Y_vst_b,
                           W_vst_b,
                           min.node.size = 100,
                           num.trees = 5000)
-
-#estimate the ATE
-ate_sig(average_treatment_effect(CF_vst_b))
 
 ###########################################################
 #########################confide###########################
@@ -245,12 +254,28 @@ Y_cfd_b <- ate_df$confide_2
 W_cfd_b <- ate_df$ed_b_2
 
 #fit a causal forest
+set.seed(42)
 CF_cfd_b <- causal_forest(X_cfd_b, 
                           Y_cfd_b,
                           W_cfd_b,
                           min.node.size = 100, 
                           num.trees = 5000) 
 
-#estimate the ATE
-ate_sig(average_treatment_effect(CF_cfd_b)) 
+###########################################################
+####### Bonferroni correction across 4 ATE outcomes #######
+###########################################################
+
+ate_results <- rbind(
+  Friendship_satisfaction = ate_sig(average_treatment_effect(CF_frnd_b)),
+  N_social_activities     = ate_sig(average_treatment_effect(CF_Nact_b)),
+  Frequency_of_visits     = ate_sig(average_treatment_effect(CF_vst_b)),
+  Frequency_of_confiding  = ate_sig(average_treatment_effect(CF_cfd_b))
+)
+
+ate_results$p.bonf <- p.adjust(ate_results$p.value, method = "bonferroni")
+
+ate_results$p.value <- formatC(ate_results$p.value, format = "e", digits = 3)
+ate_results$p.bonf  <- formatC(ate_results$p.bonf,  format = "e", digits = 3)
+
+print(ate_results)
 

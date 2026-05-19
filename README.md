@@ -8,8 +8,6 @@ Da-Woon Heo†, Eunjae Kim†, Sohyun Kang, Joon-Kyung Seong, Heung-Il Suk*, and
 
 This repository provides the full pipeline used in the study, including data preprocessing, feature construction, model training, evaluation, and feature attribution analyses.
 
-GitHub repository: https://github.com/ku-milab/Social_factors_dominate_adult_intelligence_prediction_over_health_and_brain_features
-
 ---
 
 # System Requirements

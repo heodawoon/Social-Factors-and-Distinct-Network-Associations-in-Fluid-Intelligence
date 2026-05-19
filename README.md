@@ -6,9 +6,9 @@ Da-Woon Heo†, Eunjae Kim†, Sohyun Kang, Joon-Kyung Seong, Heung-Il Suk*, and
 
 † Equal contribution; * Corresponding authors
 
-(Manuscript submitted to *Nature Communications*)
-
 This repository provides the full pipeline used in the study, including data preprocessing, feature construction, model training, evaluation, and feature attribution analyses.
+
+GitHub repository: https://github.com/ku-milab/Social_factors_dominate_adult_intelligence_prediction_over_health_and_brain_features
 
 ---
 
@@ -40,7 +40,10 @@ This repository provides the full pipeline used in the study, including data pre
 - shap == 0.49.1
 - captum == 0.8.0
 - kneed == 0.8.5
-- numpy, pandas, scipy (any recent version)
+- numpy, pandas, scipy, matplotlib
+- hydra-core >= 1.3.0, omegaconf >= 2.3.0
+- wandb >= 0.13.0
+- tqdm
 
 #### R (4.2.1)
 - gtsummary 2.5.0
@@ -305,7 +308,7 @@ GitHub repository: https://github.com/ku-milab/Social_factors_dominate_adult_int
 
 # Disclaimer
 
-This repository is provided to support reproducibility of the analyses 
+This repository is provided to support the reproducibility of the analyses 
 reported in the associated research paper. The code is intended for academic 
 and research purposes.
 

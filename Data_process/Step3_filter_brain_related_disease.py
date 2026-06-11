@@ -11,13 +11,13 @@ Disease sets to remove (ICD-10):
 - Diseases of the nervous system: G00–G99
 
 Inputs:
-- Step2_1_ukb669045_disease_timing_redefined.csv
+- Step2_1_disease_timing_redefined.csv
   (disease timing coded as: 0.0, 1.0, 1.5, 2.0)
 
 Outputs:
-- Step3_ukb669045_remove_brain_related_disease_subjects.csv
+- Step3_remove_brain_related_disease_subjects.csv
   (subjects with any brain-related disease before or at imaging removed)
-- Step3_ukb669045_removed_brain_related_subjects.csv
+- Step3_removed_brain_related_subjects.csv
   (list of subjects removed with their brain-related disease timings)
 """
 
@@ -28,12 +28,12 @@ import pandas as pd
 # ---------- Config ----------
 root_path = './data'
 
-csv_path = os.path.join(root_path, 'Step2', 'Step2_1_ukb669045_disease_timing_redefined.csv')
+csv_path = os.path.join(root_path, 'Step2', 'Step2_1_disease_timing_redefined.csv')
 save_root = os.path.join(root_path, 'Step3')
 os.makedirs(save_root, exist_ok=True)
 
-csv_path_out = os.path.join(save_root, 'Step3_ukb669045_remove_brain_related_disease_subjects.csv')
-removed_path = os.path.join(save_root, 'Step3_ukb669045_removed_brain_related_subjects.csv')
+csv_path_out = os.path.join(save_root, 'Step3_remove_brain_related_disease_subjects.csv')
+removed_path = os.path.join(save_root, 'Step3_removed_brain_related_subjects.csv')
 
 # Brain-related disease list
 # Diseases of the nervous system (ICD-10: G00–G99)

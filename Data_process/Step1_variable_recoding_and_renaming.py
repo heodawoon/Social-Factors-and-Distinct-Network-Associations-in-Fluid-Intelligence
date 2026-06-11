@@ -8,18 +8,18 @@ variables.
 
 Input
 ------
-- Step0_2_ukb669045_total_data_with_complete_fractional_anisotropy.csv
+- Step0_2_total_data_with_complete_fractional_anisotropy.csv
 
 Outputs
 -------
 1) Main dataset after reverse coding, recoding, and renaming:
-   Step1_1_ukb669045_reverse_coding_recoding_renaming.csv
+   Step1_1_reverse_coding_recoding_renaming.csv
 
 2) Value counts and proportions for each variable:
-   Step1_2_ukb669045_variable_recoding_and_renaming_value_counts.xlsx
+   Step1_2_variable_recoding_and_renaming_value_counts.xlsx
 
 3) Dataset restricted to rows with no missing values (complete cases only):
-   Step1_3_ukb669045_variable_recoding_and_renaming_value_without_nan_rows.csv
+   Step1_3_variable_recoding_and_renaming_value_without_nan_rows.csv
 """
 
 
@@ -27,12 +27,12 @@ import os, re
 import pandas as pd
 import numpy as np
 
-total_csv_path = './data/Step0/Step0_2_ukb669045_total_data_with_complete_fractional_anisotropy.csv'
+total_csv_path = './data/Step0/Step0_2_total_data_with_complete_fractional_anisotropy.csv'
 save_root = './data/Step1'
 os.makedirs(save_root, exist_ok=True)
-save_reverse_code = os.path.join(save_root, 'Step1_1_ukb669045_reverse_coding_recoding_renaming.csv')
-save_reverse_code_count = os.path.join(save_root, "Step1_2_ukb669045_variable_recoding_and_renaming_value_counts.xlsx")
-save_path_without_nan = os.path.join(save_root, "Step1_3_ukb669045_variable_recoding_and_renaming_value_without_nan_rows.csv")
+save_reverse_code = os.path.join(save_root, 'Step1_1_reverse_coding_recoding_renaming.csv')
+save_reverse_code_count = os.path.join(save_root, "Step1_2_variable_recoding_and_renaming_value_counts.xlsx")
+save_path_without_nan = os.path.join(save_root, "Step1_3_variable_recoding_and_renaming_value_without_nan_rows.csv")
 
 total_df = pd.read_csv(total_csv_path, low_memory=False)
 

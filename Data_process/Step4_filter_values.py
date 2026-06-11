@@ -7,7 +7,7 @@ Filter the data:
     (previous/on-imaging occurrence -> 1, otherwise -> 0)
 
 Inputs:
-- Step3_ukb669045_remove_brain_related_disease_subjects.csv
+- Step3_remove_brain_related_disease_subjects.csv
   (disease timing coded as: 0.0, 1.0, 1.5, 2.0)
 
 Outputs:
@@ -37,7 +37,7 @@ import numpy as np
 # ---------- Config ----------
 root_path = './data'
 
-csv_path = os.path.join(root_path, 'Step3', 'Step3_ukb669045_remove_brain_related_disease_subjects.csv')
+csv_path = os.path.join(root_path, 'Step3', 'Step3_remove_brain_related_disease_subjects.csv')
 save_root = os.path.join(root_path, 'Step4')
 os.makedirs(save_root, exist_ok=True)
 

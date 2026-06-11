@@ -1,11 +1,5 @@
 # Social factors dominate adult intelligence prediction over health and brain features
 
-Code accompanying the manuscript by:
-
-Da-Woon Heo†, Eunjae Kim†, Sohyun Kang, Joon-Kyung Seong, Heung-Il Suk*, and Eun Kyong Shin*
-
-† Equal contribution; * Corresponding authors
-
 This repository provides the full pipeline used in the study, including data preprocessing, feature construction, model training, evaluation, and feature attribution analyses.
 
 ---
@@ -56,9 +50,6 @@ This repository provides the full pipeline used in the study, including data pre
 ### Quick Install
 
 ```bash
-git clone https://github.com/ku-milab/Social_factors_dominate_adult_intelligence_prediction_over_health_and_brain_features.git
-cd Social_factors_dominate_adult_intelligence_prediction_over_health_and_brain_features
-
 # Python dependencies
 pip install -r requirements.txt
 
@@ -290,7 +281,7 @@ Rscript R_script/Descriptive_table.R <path_to_csv> <output_dir>
 
 To reproduce the results reported in the manuscript:
 
-1. Obtain UK Biobank access (Application ID 70034 was used for this study).
+1. Obtain UK Biobank access.
 2. Place the processed UK Biobank data in the expected directory.
 3. Run the full preprocessing pipeline (`Data_process/Step0` through `Step6`).
 4. Run all model training scripts under `Tree_based_models/` and `DL_based_model/FT_Transformer/`.
@@ -344,31 +335,6 @@ This study uses data from the **UK Biobank**.
 Due to data access restrictions, the dataset cannot be redistributed in this repository.
 
 Researchers can obtain access through the official UK Biobank data access procedure: https://www.ukbiobank.ac.uk/
-
-The analyses in this study were conducted under **Application ID 70034**.
-
----
-
-# License
-
-This code is released under the **MIT License**.
-
-See the `LICENSE` file in the repository for the full license text.
-
----
-
-# Citation
-
-This manuscript is currently under peer review. Citation information will be 
-updated upon publication.
-
-If you use this code prior to publication, please cite this repository as:
-
-```
-Heo, D.-W., Kim, E., Kang, S., Seong, J.-K., Suk, H.-I., & Shin, E. K.
-Social factors dominate adult intelligence prediction over health and brain features. 
-GitHub repository: https://github.com/ku-milab/Social_factors_dominate_adult_intelligence_prediction_over_health_and_brain_features
-```
 
 ---
 

@@ -13,15 +13,15 @@ Note that this sub-variable naming ('{ICDCode}Date') does not follow the origina
 it was redefined here for convenience.
 Input
 ------
-- Step1_3_ukb669045_variable_recoding_and_renaming_value_without_nan_rows.csv
+- Step1_3_variable_recoding_and_renaming_value_without_nan_rows.csv
 
 Outputs
 -------
 1) Redefined disease timing (date → 1.0, 1.5, 2.0, 0.0):
-   - Step2_1_ukb669045_disease_timing_redefined.csv
+   - Step2_1_disease_timing_redefined.csv
 
 2) `Disease count per disease` (before or at imaging):
-   - Step2_2_ukb669045_disease_subject_count_before_or_at_imaging.xlsx
+   - Step2_2_disease_subject_count_before_or_at_imaging.xlsx
 
 """
 
@@ -53,9 +53,9 @@ brain_cols  = [f"{idx}-2.0" for idx in brain_index]
 
 total_columns = total_columns + brain_cols
 
-csv_path = os.path.join(root_path, 'Step1_3_ukb669045_variable_recoding_and_renaming_value_without_nan_rows.csv')
-csv_path_out = os.path.join(save_root, 'Step2_1_ukb669045_disease_timing_redefined.csv')
-csv_path_disease_number_out = os.path.join(save_root, 'Step2_2_ukb669045_disease_subject_count_before_or_at_imaging.csv')
+csv_path = os.path.join(root_path, 'Step1_3_variable_recoding_and_renaming_value_without_nan_rows.csv')
+csv_path_out = os.path.join(save_root, 'Step2_1_disease_timing_redefined.csv')
+csv_path_disease_number_out = os.path.join(save_root, 'Step2_2_disease_subject_count_before_or_at_imaging.csv')
 
 # ---------- Load ----------
 df = pd.read_csv(csv_path)

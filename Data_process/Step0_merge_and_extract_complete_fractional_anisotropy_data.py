@@ -5,8 +5,8 @@ Code for data organization
 2) Extract subjects with no missing values in fractional anisotropy columns.
 
 Output:
-1) Total merged data: Step0_1_ukb669045_total_merged_data_demo_brain_disease.csv
-2) Refined data (no missing values in fractional anisotropy): Step0_2_ukb669045_total_data_with_complete_fractional_anisotropy.csv
+1) Total merged data: Step0_1_total_merged_data_demo_brain_disease.csv
+2) Refined data (no missing values in fractional anisotropy): Step0_2_total_data_with_complete_fractional_anisotropy.csv
 '''
 
 import os
@@ -126,7 +126,7 @@ brain_hemisphere  = brain_df[use_brain_cols].copy()
 # Total subjects + brain information (missing brain data are filled with NaN)
 final_df = pd.merge(total_subject, brain_hemisphere, on='eid', how='left')
 final_df = pd.merge(final_df, disease_df, on='eid', how='left')
-final_df.to_csv(os.path.join(save_root, 'Step0_1_ukb669045_total_merged_data_demo_brain_disease.csv'), index=False)
+final_df.to_csv(os.path.join(save_root, 'Step0_1_total_merged_data_demo_brain_disease.csv'), index=False)
 print('The total number of subjects:', len(final_df))
 print('Size:', final_df.shape)
 
@@ -140,5 +140,5 @@ print(f"The number of subjects with at least one missing fractional anisotropy v
 
 final_brain_df = pd.merge(brain_no_nan, total_subject, on='eid', how='left')
 final_brain_df = pd.merge(final_brain_df, disease_df, on='eid', how='left')
-final_brain_df.to_csv(os.path.join(save_root, 'Step0_2_ukb669045_total_data_with_complete_fractional_anisotropy.csv'), index=False)
+final_brain_df.to_csv(os.path.join(save_root, 'Step0_2_total_data_with_complete_fractional_anisotropy.csv'), index=False)
 print(f'The number of subjects with no missing values in fractional anisotropy: {len(final_brain_df)}')

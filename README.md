@@ -1,4 +1,4 @@
-# Social factors dominate adult intelligence prediction over health and brain features
+# Associations Among Educational Attainment, Social Network Characteristics, and Cognitive Function: A Multidomain Analysis of UK Biobank Data
 
 This repository provides the full pipeline used in the study, including data preprocessing, feature construction, model training, evaluation, and feature attribution analyses.
 

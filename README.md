@@ -1,4 +1,4 @@
-# Social Factors and Distinct Network Associations in Fluid Intelligence Across Multidomain UK Biobank Data
+# Social factors and distinct network associations with fluid intelligence in multidomain UK Biobank data
 
 This repository provides the full pipeline used in the study, including data preprocessing, feature construction, model training, evaluation, and feature attribution analyses.
 

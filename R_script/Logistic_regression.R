@@ -67,7 +67,7 @@ auc(roc_obj)
 df_sn <- df %>% 
   dplyr::select(frnd_sat_2, social_act_n_2,
                 freq_visit_2, confide_2, ed_yr_2, met_2, age_2, alcohol_2,
-                ethnicity_0, income_fam_2, 
+                ethnicity_b_2, income_fam_2, 
                 X25092.2.0, gender,
                 X25059.2.0, X25068.2.0, X25094.2.0,
                 emp_b_2, X25095.2.0, 

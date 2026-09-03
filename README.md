@@ -42,6 +42,7 @@ This repository provides the full pipeline used in the study, including data pre
 - car 3.1.5
 - pROC 1.19.0.1
 - grf 2.6.1
+- mediation 4.5.1
 
 ---
 
